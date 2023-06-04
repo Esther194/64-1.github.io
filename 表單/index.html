@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by 洪韡華</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html>
+<head>
+  <title>評價與評論</title>
+</head>
+<body>
+  <h1>評價與評論</h1>
+  <form id="cf">
+    <input type="text" id="ni" placeholder="姓名" required><br><br>
+    <textarea id="ci" placeholder="評論內容" ></textarea><br>
+    <input type="number" id="ri" placeholder="評分（1-5）" min="1" max="5" required>
+    <button type="submit">提交</button>
+  </form>
+
+  <h2>評論列表</h2>
+  <button id="sab">按評分升序排序</button>
+  <button id="sdb">按評分降序排序</button>
+  <div id="cc"></div>
+
+  <script>
+    var f = document.getElementById("cf");
+    var c = document.getElementById("cc");
+
+    f.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      var ni = document.getElementById("ni");
+      var ci = document.getElementById("ci");
+      var ri = document.getElementById("ri");
+      var n = ni.value;
+      var cm = ci.value;
+      var r = parseInt(ri.value);
+
+      var ce = document.createElement("div");
+      ce.classList.add("cm");
+
+      var re = document.createElement("span");
+      re.classList.add("rt");
+      re.textContent = "★".repeat(r);
+
+      var coe = document.createElement("span");
+      coe.textContent = n + ": " + cm;
+
+      ce.appendChild(re);
+      ce.appendChild(coe);
+
+      c.appendChild(ce);
+
+      ni.value = "";
+      ci.value = "";
+      ri.value = "";
+    });
+
+    var sab = document.getElementById("sab");
+    var sdb = document.getElementById("sdb");
+
+    sab.addEventListener("click", function() {
+      sc("ascending");
+    });
+
+    sdb.addEventListener("click", function() {
+      sc("descending");
+    });
+
+    function gv(re) {
+      return re.textContent.length;
+    }
+
+    function sc(o) {
+      var cmnts = Array.from(c.children);
+
+      cmnts.sort(function(a, b) {
+        var ra = gv(a.querySelector(".rt"));
+        var rb = gv(b.querySelector(".rt"));
+
+        if (o === "ascending") {
+          return ra - rb;
+        } else if (o === "descending") {
+          return rb - ra;
+        }
+      });
+
+      while (c.firstChild) {
+        c.removeChild(c.firstChild);
+      }
+
+      cmnts.forEach(function(cmnt) {
+        c.appendChild(cmnt);
+      });
+    }
+    
+      var initialComments = [
+  {
+    name: "Amy",
+    comment: "這家糖果店的選擇多種多樣，味道也很好！",
+    rating: 5
+  },
+  {
+    name: "Bob",
+    comment: "價格有點貴，糖果的品質還行。",
+    rating: 3
+  },
+  {
+    name: "Cathy",
+    comment: "員工服務態度很友善，讓人感到很舒適。",
+    rating: 4
+  },
+];
+    
+
+    initialComments.forEach(function(comment) {
+      var ce = document.createElement("div");
+      ce.classList.add("cm");
+        var re = document.createElement("span");
+  re.classList.add("rt");
+  re.textContent = "★".repeat(comment.rating);
+
+  var coe = document.createElement("span");
+  coe.textContent = comment.name + ": " + comment.comment;
+
+  ce.appendChild(re);
+  ce.appendChild(coe);
+
+  c.appendChild(ce);
+});
+
+  </script>
+  
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
