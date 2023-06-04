@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by 洪韡華</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html>
+<head>
+	<title>糖果屋</title>
+</head>
+<body style="background-color:powderblue" onload="showAll()">
+	<h1 style="background:#FFE5B4;color:#404040;text-align:center;" >糖果屋</h1>
+	<h2>分類</h2>
+	<button onclick="showAll()">全部</button>
+	<button onclick="showCategory('吐司')">吐司</button>
+  <button onclick="showCategory('三明治&漢堡')">三明治&漢堡</button>
+  <button onclick="showCategory('鬆餅')">鬆餅</button>
+  <button onclick="showCategory('甜點')">甜點</button>
+	<h2>商品列表</h2>
+	<div id="candyList"></div>
+	<script>
+		
+		var candies = [
+			{name: "冰淇淋吐司", category: "吐司", image: "https://scontent.cdninstagram.com/v/t51.29350-15/303898012_449285967258501_2909289170505662804_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=dxum1ngHV1IAX-8ttbM&_nc_ht=scontent.cdninstagram.com&oh=00_AfCvEQDEPWRRidEsyzOGu13T_lcOzIVoIjIfIvqReRT2qA&oe=64150CAA" },
+      {name: "奶油吐司", category: "吐司", image: "https://scontent.cdninstagram.com/v/t51.29350-15/300701230_778943493527551_8424331931555691912_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=rJBg20UT0OQAX_7l3dS&_nc_ht=scontent.cdninstagram.com&oh=00_AfCEZVs7IYHJFMLFWaxzbAUvaTAtagoOaTERJtWZr7nZow&oe=6414FF94" },
+      {name: "花生吐司", category: "吐司", image: "https://scontent.cdninstagram.com/v/t51.29350-15/293163674_450554416592255_8088036440170578007_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=kzmAQQ0G4FYAX-JG8CA&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfDzul_FHT3Lllie0zlCnXevlVTYCDPNyxazOi-B_EyfrQ&oe=6415440F" },
+      {name: "草莓蛋吐司", category: "吐司", image: "https://scontent.cdninstagram.com/v/t51.29350-15/294264568_2030404377132334_6900331165541028761_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=LOeVNYaWZ4AAX8SKOta&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfCHDPSbeB9-9CciYcRmQtaQxNMcFOKy5RNBDMYJI7Y1Ow&oe=6414C578" },
+      {name: "起司吐司", category: "吐司", image: "https://scontent.cdninstagram.com/v/t51.29350-15/294887685_846905393354209_3762038593280640314_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=7T-u8VvsMckAX8eu5l6&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfCWwIhBIbFgt8dxybuJu97NpzlCmIBrprtVJperH8BEtQ&oe=6415EA23" },
+      {name: "三明治", category: "三明治&漢堡", image: "https://scontent.cdninstagram.com/v/t51.29350-15/285259641_3678218492302330_5016535437883171592_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=aq2vQL6_fFkAX9g3mLD&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfA6bufrc6Y5-JklQEpfOBOcNZcTUD_V1KbzV7_jJrVaeg&oe=64154C0A"},
+      {name: "超多層火腿堡", category: "三明治&漢堡", image: "https://scontent.cdninstagram.com/v/t51.29350-15/285533791_581847913249828_1171293088522641046_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=tVVQVO37LegAX_-E5cr&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfA1R7egt_WkNhrG7EJJinWbPpPOC0bl0yfPHro6wBfsFw&oe=64152D11"},
+      {name: "小熊漢堡", category: "三明治&漢堡", image: "https://scontent.cdninstagram.com/v/t51.29350-15/287281510_426432776001672_6093260649367734603_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=NCWxabnKxRkAX-Xomrd&_nc_oc=AQldv94XpntyrbyvCHWDkXy8h3ORHuZGTyMriD6HgWiNwrziwKXucfwJ82hgQ9U01wkpyOrpJhm_Pa8g6sFuGYIL&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfBlcSgfvTjniv_lmVCrfD913OXfDHS2nXcXsX9SqUAzsA&oe=6414B4D1"},
+      {name: "漢堡", category: "三明治&漢堡", image: "https://scontent.cdninstagram.com/v/t51.29350-15/334525354_5868790546549872_2589040074039687849_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=hpgiSoyakbgAX8vRXqu&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfCi5rWL5J-GhY1qjiRZohIeahvY_GX_pXzHPxbmYEi00A&oe=64156210"},
+			{name: "小手鬆餅", category: "鬆餅", image: "https://scontent.cdninstagram.com/v/t51.29350-15/285914942_7518544154886383_7756618806313755423_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=YEG934Blni4AX_wF2cp&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfA0QONOM4nIybLKHwGTKfIPOCXsjf976Fm18J25LgHxgA&oe=64149AA6"},
+      {name: "鬆餅", category: "鬆餅", image: "https://scontent.cdninstagram.com/v/t51.29350-15/327463267_1310092873183586_3406811693071300067_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=aAHYtfy-IUAAX8ptQwb&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfDYfzkd0Bws6e9gbhlJfpwaK15k7He2811T9_vrgU-QBg&oe=64158DF3"},
+			{name: "糖葫蘆", category: "甜點", image: "https://scontent.cdninstagram.com/v/t51.29350-15/335566859_2246437582204770_2638443522031679803_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=8QIUgtQ7aIoAX_0z8aQ&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfDSwnTcJb20wt0dztbuA_fCi_BSh4WXB16wlCtYPzA7Jw&oe=6415548D"},
+			{name: "小蛋糕", category: "甜點", image: "https://scontent.cdninstagram.com/v/t51.29350-15/334711666_1220498042190844_5418201503685897928_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=cdEaXPoVY7oAX8FkqUd&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfB86lf7rYQqG9alMePqo15cuelVfHl1wcZkb4S-OlQCdw&oe=64146816"},
+      {name: "奶凍捲", category: "甜點", image: "https://scontent.cdninstagram.com/v/t51.29350-15/332784119_183138104469409_8787834455260319692_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=qDx8VkbnMDMAX9q4wGf&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfBadCK6wEY7yjNhH7Iib1Mx1e5_0xv7elhfksao2ouERg&oe=641592F1"},
+			{name: "杯子蛋糕", category: "甜點", image: "https://scontent.cdninstagram.com/v/t51.29350-15/334091818_876924923565344_535503006298849228_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=X1Kj4EYmtkgAX_sjqG1&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfCdFbQWTOav89ULWDiMCepbEZV3V3CJTzMa0kJ2_ABxxQ&oe=64149141"},
+      {name: "曲奇餅乾", category: "甜點", image: "https://scontent.cdninstagram.com/v/t51.29350-15/333783266_190297323696178_2864406181373670851_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=b_zZRoYxwAUAX_8dkLr&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfA5qQphoDeVQ5IgvJr2jqx3uwh63dsgUN89yEsmBhhoWw&oe=6415B025"}
+		];
+
+		
+		function showAll() {
+			var candyList = document.getElementById("candyList");
+			candyList.innerHTML = ""; 
+			for (var i = 0; i < candies.length; i++) {
+				var candy = candies[i];
+				var candyDiv = document.createElement("div");
+				candyDiv.innerHTML =  candy.name+"<br>"+"<img src='" + candy.image + "'><br>" ;
+				candyList.appendChild(candyDiv);
+			}
+		}
+
+		
+		function showCategory(category) {
+			var candyList = document.getElementById("candyList");
+			candyList.innerHTML = ""; 
+			for (var i = 0; i < candies.length; i++) {
+				var candy = candies[i];
+				if (candy.category === category) {
+					var candyDiv = document.createElement("div");
+					candyDiv.innerHTML =  candy.name+"<br>"+"<img src='" + candy.image + "'><br>" ;
+					candyList.appendChild(candyDiv);
+				}
+			}
+		}
+	</script>
+   <a href="https://esther194.github.io/64-1.github.io/%E8%A1%A8%E5%96%AE/index.html">顧客意見調查表</a><br>
+<a href="https://esther194.github.io/64-1.github.io/%E8%A1%A8%E5%96%AE/index.html"traget="_block">開新視窗</a>
+<a href="https://esther194.github.io/64-1.github.io/%E8%A1%A8%E5%96%AE/index.html"target="_top">於上層視窗開啟</a>
+  <p>創作者IG</p>
+  <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Finstagram.com%2Fscone_sum%3Figshid%3DYmMyMTA2M2Y%253D%26fbclid%3DIwAR16EYI5Lkgm0yufVB0RvOR8cb9iEXsRA2ORytiBAiCbuL_zODyDIy2S0jI&h=AT2UukzysN9VJULLZ8mIxnjpebr6heU86Je7y2KXjOh6ps0koYXk06V2guokND_LesR-uGHutbF5cS6USnAC8jFYnHP7-DsVvhWY5z4BZYNa8BFM3nj7Y5-Iu2bPUFu8zh6ZlM9yWNGSfkqmTxzPAg">scone_sum</a>
+<iframe
+  width="0"
+  height="0"
+  src="https://youtu.be/uekjdN2_qho"
+  frameborder="0"
+  allowfullscreen
+</iframe> 
+ 
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
